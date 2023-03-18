@@ -1,32 +1,18 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import ProTip from './ProTip';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
+import Entry from './pages/entry';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Ready from './pages/ready';
+import { PATH } from './routes/path';
+import Quiz from './pages/quiz';
 
 export default function App() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Material UI Create React App example in TypeScript
-        </Typography>
-        <ProTip />
-        <Copyright />
-      </Box>
-    </Container>
+    <BrowserRouter>
+      <Routes>
+        <Route path={PATH.entry} element={<Entry />} />
+        <Route path={PATH.ready} element={<Ready />} />
+        <Route path={PATH.quiz} element={<Quiz />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
