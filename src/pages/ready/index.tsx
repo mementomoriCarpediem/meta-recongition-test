@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,11 +13,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
 
+const TEST_WORD_NUMBER_LIST = [10, 20, 30];
+
 const Ready = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [wordNumber, setWordNumber] = useState<number>();
+  const [wordNumber, setWordNumber] = useState<number>(10);
 
   return (
     <Container>
@@ -48,9 +49,9 @@ const Ready = () => {
             value={wordNumber}
             label="테스트 단어 수"
             onChange={(e) => setWordNumber(Number(e.target.value))}>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
+            {TEST_WORD_NUMBER_LIST.map((number) => (
+              <MenuItem value={number}>{number}</MenuItem>
+            ))}
           </Select>
         </FormControl>
 
