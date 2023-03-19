@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Ready from './pages/ready';
 import { PATH } from './routes/path';
 import Quiz from './pages/quiz';
+import Guess from './pages/guess';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path={PATH.entry} element={<Entry />} />
         <Route path={PATH.ready} element={<Ready />} />
         <Route path={PATH.quiz} element={<Quiz />} />
+        <Route path={PATH.guess} element={<Guess />} />
       </Routes>
     </BrowserRouter>
   );

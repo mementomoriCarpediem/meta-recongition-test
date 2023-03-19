@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { Container } from '@mui/system';
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useWords } from '../../hooks/useWords';
 import { PATH } from '../../routes/path';
 
@@ -10,13 +10,19 @@ const mock_words = ['가나다라마바사', '라마다', '남사읍', '사과',
 
 const Quiz = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { total, currentIndex, word } = useWords(mock_words);
 
-  if (total === currentIndex) {
-    setTimeout(() => {
-      return <Navigate to={PATH.guess} />;
-    }, 3000);
-  }
+  useEffect(() => {
+    let timer: NodeJS.Timer;
+
+    if (total === currentIndex + 1) {
+      timer = setTimeout(() => navigate(PATH.guess), 3000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [currentIndex]);
 
   return (
     <Container
@@ -29,7 +35,7 @@ const Quiz = () => {
           }}
           title={
             <Typography variant="h6" textAlign={'center'}>{`${
-              currentIndex + 1
+              word.length > 0 ? currentIndex + 1 : 0
             }/${total}`}</Typography>
           }
         />
