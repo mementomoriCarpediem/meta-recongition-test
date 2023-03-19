@@ -3,4 +3,6 @@ export const PATH = {
   ready: '/ready',
   quiz: '/quiz',
   guess: '/guess',
+  submit: '/submit',
+  result: '/result',
 };

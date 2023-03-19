@@ -3,6 +3,7 @@ import { Container } from '@mui/system';
 import GuidelineBox from '../../components/GuidelineBox';
 import { Button, Input, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../routes/path';
 
 const Guess = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Guess = () => {
 
       <Stack gap={2}>
         <Input type="number" fullWidth placeholder="예상하는 단어 수를 입력해주세요." />
-        <Button fullWidth variant="contained" onClick={() => {}}>
+        <Button fullWidth variant="contained" onClick={() => navigate(PATH.submit)}>
           확인
         </Button>
       </Stack>

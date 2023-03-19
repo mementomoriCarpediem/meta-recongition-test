@@ -25,8 +25,7 @@ const Quiz = () => {
   }, [currentIndex]);
 
   return (
-    <Container
-      sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <Container sx={{ mt: 10 }}>
       <Card>
         <CardHeader
           sx={{
