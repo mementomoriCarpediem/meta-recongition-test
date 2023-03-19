@@ -6,11 +6,11 @@ type Props = {
   contents?: string[];
 };
 
-const GuidelineBox = ({ title, contents }: Props) => {
+const BoxTextGroup = ({ title, contents }: Props) => {
   const theme = useTheme();
 
   return (
-    <Stack alignItems={'center'} width="100%" gap={3} sx={{ my: 5 }} justifyContent="space-around">
+    <Stack alignItems={'center'} width="100%" gap={3} sx={{ my: 3 }} justifyContent="space-around">
       <Typography variant="h5" fontWeight={theme.typography.fontWeightMedium}>
         {title}
       </Typography>
@@ -26,4 +26,4 @@ const GuidelineBox = ({ title, contents }: Props) => {
   );
 };
 
-export default GuidelineBox;
+export default BoxTextGroup;

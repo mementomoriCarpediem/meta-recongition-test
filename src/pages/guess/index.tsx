@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '@mui/system';
-import GuidelineBox from '../../components/GuidelineBox';
+import BoxTextGroup from '../../components/BoxTextGroup';
 import { Button, Input, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
@@ -9,7 +9,7 @@ const Guess = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <GuidelineBox
+      <BoxTextGroup
         title="단어들을 잘 외우셨나요?"
         contents={[
           '외운 단어를 입력하기 전에,',

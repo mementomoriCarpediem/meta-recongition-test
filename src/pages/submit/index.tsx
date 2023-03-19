@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Stack, TextField } from '@mui/material';
-import { Container } from '@mui/system';
-import GuidelineBox from '../../components/GuidelineBox';
+import { Button, Container, Stack, TextField } from '@mui/material';
+
+import BoxTextGroup from '../../components/BoxTextGroup';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
 
@@ -9,7 +9,7 @@ const Submit = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <GuidelineBox
+      <BoxTextGroup
         title="단어 입력"
         contents={['외우고 있는 단어를 모두 입력해주세요.', '쉼표로 단어를 구분해주세요.']}
       />

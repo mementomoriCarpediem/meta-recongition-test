@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, Paper, Stack, Typography, useTheme } from '@mui/material';
-import { Container } from '@mui/system';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, Container, Typography, useTheme } from '@mui/material';
+
 import { useWords } from '../../hooks/useWords';
 import { PATH } from '../../routes/path';
 

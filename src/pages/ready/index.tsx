@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GuidelineBox from '../../components/GuidelineBox';
+import BoxTextGroup from '../../components/BoxTextGroup';
 import { PATH } from '../../routes/path';
 
 const TEST_WORD_NUMBER_LIST = [10, 20, 30];
@@ -23,7 +23,7 @@ const Ready = () => {
 
   return (
     <Container>
-      <GuidelineBox
+      <BoxTextGroup
         title="테스트 설명"
         contents={[
           '1. 아래에서 테스트 단어 수를 선택하세요.',
