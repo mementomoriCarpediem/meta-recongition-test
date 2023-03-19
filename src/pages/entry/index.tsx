@@ -13,12 +13,25 @@ import {
 import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
+import { AWSDynamoDB } from '../../components/AWSDynamoDB';
 
 const Entry = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState<string>('');
+
+  const dbInstance = new AWSDynamoDB();
+
+  // dbInstance.putData({
+  //   nickname: 'a',
+  //   date: '2022-03-11',
+  //   wordsTotal: 10,
+  //   guessNumber: 8,
+  //   correctNumber: 6,
+  // });
+
+  // dbInstance.fetchData()
 
   return (
     <Container sx={{ height: '100vh' }}>
@@ -41,8 +54,7 @@ const Entry = () => {
         <Stack sx={{ width: '100%', m: 5 }} gap={5}>
           <Input
             placeholder="당신의 고유한 닉네임을 입력해주세요."
-            size="medium"
-            // fullWidth
+            fullWidth
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
