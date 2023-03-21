@@ -1,27 +1,24 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, Container, Typography, useTheme } from '@mui/material';
-
 import { useWords } from '../../hooks/useWords';
 import { PATH } from '../../routes/path';
-
-//TODO: API 연결 후 교체
-const mock_words = ['가나다라마바사', '라마다', '남사읍', '사과', '자전거'];
 
 const Quiz = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { total, currentIndex, word } = useWords(mock_words);
+  const {
+    state: { randomWords },
+  } = useLocation();
+
+  const { total, currentIndex, word } = useWords(randomWords);
 
   useEffect(() => {
     let timer: NodeJS.Timer;
 
-    if (total === currentIndex + 1) {
-      timer = setTimeout(() => navigate(PATH.guess), 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
+    if (total === currentIndex + 1) timer = setTimeout(() => navigate(PATH.guess), 3000);
+
+    return () => clearTimeout(timer);
   }, [currentIndex]);
 
   return (

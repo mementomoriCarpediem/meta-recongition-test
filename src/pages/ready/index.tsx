@@ -1,25 +1,21 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  useTheme,
-} from '@mui/material';
+import { Button, Container, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { recordRecoil } from '../../recoil/atom';
 import BoxTextGroup from '../../components/BoxTextGroup';
+import words from '../../assets/korean_list.json';
+
 import { PATH } from '../../routes/path';
 
 const TEST_WORD_NUMBER_LIST = [10, 20, 30];
 
 const Ready = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const [wordNumber, setWordNumber] = useState<number>(10);
+
+  const [record, setRecord] = useRecoilState(recordRecoil);
 
   return (
     <Container>
@@ -48,12 +44,28 @@ const Ready = () => {
           </Select>
         </FormControl>
 
-        <Button variant="contained" onClick={() => navigate(PATH.quiz)}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setRecord({ ...record, wordsTotal: wordNumber });
+            navigate(PATH.quiz, { state: { randomWords: pickRandomWords(wordNumber) } });
+          }}>
           테스트 시작
         </Button>
       </Stack>
     </Container>
   );
+
+  function pickRandomWords(wordsNumber: number) {
+    let result = [];
+    const maxLength = words.length;
+
+    for (let i = 0; i < wordsNumber; i++) {
+      const randomIndex = Math.floor(Math.random() * maxLength);
+      result.push(words[randomIndex].단어);
+    }
+    return result;
+  }
 };
 
 export default Ready;

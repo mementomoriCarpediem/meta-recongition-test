@@ -33,6 +33,16 @@ export class AWSDynamoDB {
     });
   }
 
+  loginWithNickname(nickname: string) {}
+
+  queryData(nickname: string) {
+    docClient.query({
+      TableName: TABLE_NAME,
+      KeyConditionExpression: 'nickname = :nickname',
+      ExpressionAttributeNames: { ':nickname': nickname },
+    });
+  }
+
   putData = (data: TDataType) => {
     var params = {
       TableName: TABLE_NAME,

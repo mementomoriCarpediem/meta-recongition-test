@@ -1,3 +1,18 @@
+import moment from 'moment';
 import { atom } from 'recoil';
 
-const nickname = atom({ key: 'nickname', default: '' });
+export const nicknameRecoil = atom({ key: 'nickname', default: '' });
+
+type TRecord = {
+  date: string;
+  wordsTotal?: number;
+  guessNumber?: number;
+  correctNumber?: number;
+};
+
+export const recordRecoil = atom<TRecord>({
+  key: 'record',
+  default: {
+    date: moment().format('YYYY-MM-DD hh:mm:ss'),
+  },
+});

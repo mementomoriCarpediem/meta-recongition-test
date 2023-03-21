@@ -13,25 +13,16 @@ import {
 import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
-import { AWSDynamoDB } from '../../components/AWSDynamoDB';
+import { useSetRecoilState } from 'recoil';
+import { nicknameRecoil } from '../../recoil/atom';
 
 const Entry = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const setNicknameRecoil = useSetRecoilState(nicknameRecoil);
+
   const [nickname, setNickname] = useState<string>('');
-
-  const dbInstance = new AWSDynamoDB();
-
-  // dbInstance.putData({
-  //   nickname: 'a',
-  //   date: '2022-03-11',
-  //   wordsTotal: 10,
-  //   guessNumber: 8,
-  //   correctNumber: 6,
-  // });
-
-  // dbInstance.fetchData()
 
   return (
     <Container sx={{ height: '100vh' }}>
@@ -48,21 +39,30 @@ const Entry = () => {
             fontWeight={theme.typography.fontWeightMedium}>
             메타인지 테스트
           </Typography>
-          <Divider sx={{ width: 1 }} />
+          <Divider />
         </Stack>
 
         <Stack sx={{ width: '100%', m: 5 }} gap={5}>
-          <Input
-            placeholder="당신의 고유한 닉네임을 입력해주세요."
-            fullWidth
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
+          <Stack>
+            <Input
+              placeholder="닉네임을 입력해주세요."
+              fullWidth
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+            <Typography variant="caption">
+              (고유값이며, 동일 유저의 기록은 자동 누적 저장됩니다.)
+            </Typography>
+          </Stack>
+
           <Button
             variant="contained"
             type="submit"
             size="large"
-            onClick={() => navigate(PATH.ready)}>
+            onClick={() => {
+              setNicknameRecoil(nickname);
+              navigate(PATH.ready);
+            }}>
             시작하기
           </Button>
         </Stack>
