@@ -65,29 +65,9 @@ const Result = () => {
         />
       </Stack>
 
-      <Stack>
-        <Zoom
-          in
-          timeout={{
-            enter: theme.transitions.duration.enteringScreen,
-            exit: theme.transitions.duration.leavingScreen,
-          }}
-          style={{
-            transitionDelay: `${theme.transitions.duration.leavingScreen}ms`,
-            marginLeft: 'auto',
-          }}
-          unmountOnExit
-          onClick={async () => await copyTextUrl()}>
-          <Fab sx={{ bgcolor: theme.palette.primary.main }}> {<ShareIcon color={'success'} />}</Fab>
-        </Zoom>
-      </Stack>
+      <CopyLink />
     </Container>
   );
-
-  async function copyTextUrl() {
-    await navigator.clipboard.writeText(window.location.href);
-    alert('링크 복사 완료!');
-  }
 };
 
 export default Result;
@@ -101,5 +81,33 @@ function getGussingAccurate(record: Partial<TDataType>) {
         (1 - Math.abs(correctNumber - guessNumber) / (correctNumber + guessNumber)).toFixed(1)
       ) * 100
     );
+  }
+}
+
+function CopyLink() {
+  const theme = useTheme();
+
+  return (
+    <Stack>
+      <Zoom
+        in
+        timeout={{
+          enter: theme.transitions.duration.enteringScreen,
+          exit: theme.transitions.duration.leavingScreen,
+        }}
+        style={{
+          transitionDelay: `${theme.transitions.duration.leavingScreen}ms`,
+          marginLeft: 'auto',
+        }}
+        unmountOnExit
+        onClick={async () => await copyTextUrl()}>
+        <Fab sx={{ bgcolor: theme.palette.primary.main }}> {<ShareIcon color={'success'} />}</Fab>
+      </Zoom>
+    </Stack>
+  );
+
+  async function copyTextUrl() {
+    await navigator.clipboard.writeText(window.location.href.replace('/result', ''));
+    alert('링크 복사 완료!');
   }
 }
