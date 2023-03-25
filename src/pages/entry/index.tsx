@@ -49,14 +49,14 @@ const Entry = () => {
         <Stack sx={{ width: '100%', m: 5 }} gap={5}>
           <Stack>
             <Input
-              placeholder="닉네임을 입력해주세요."
+              placeholder="이름을 입력해주세요."
               fullWidth
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
-            <Typography variant="caption">
+            {/* <Typography variant="caption">
               (고유값이며, 동일 유저의 기록은 자동 누적 저장됩니다.)
-            </Typography>
+            </Typography> */}
           </Stack>
 
           <Button
