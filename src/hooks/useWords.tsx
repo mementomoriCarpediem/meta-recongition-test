@@ -27,7 +27,7 @@ export const useWords = (inputWords: string[]) => {
     };
   }, [inputWords]);
 
-  console.log(inputWords, data);
+  // console.log(inputWords, data);
 
   return { total: inputWords.length, currentIndex: data.currentIndex, word: data.word };
 };

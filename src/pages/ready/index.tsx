@@ -8,12 +8,12 @@ import words from '../../assets/korean_list.json';
 
 import { PATH } from '../../routes/path';
 
-const TEST_WORD_NUMBER_LIST = [1, 20, 30];
+const TEST_WORD_NUMBER_LIST = [10, 20, 30];
 
 const Ready = () => {
   const navigate = useNavigate();
 
-  const [wordNumber, setWordNumber] = useState<number>(1);
+  const [wordNumber, setWordNumber] = useState<number>(10);
 
   const setQuizWords = useSetRecoilState(quizWords);
 
