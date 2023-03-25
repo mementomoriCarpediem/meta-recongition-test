@@ -1,9 +1,10 @@
 import React from 'react';
-import { Container, Divider, Fab, Stack, Typography, useTheme, Zoom } from '@mui/material';
+import { Container, Divider, Fab, Rating, Stack, Typography, useTheme, Zoom } from '@mui/material';
 import BoxTextGroup from '../../components/BoxTextGroup';
 import ShareIcon from '@mui/icons-material/Share';
 import { useRecoilValue } from 'recoil';
 import { recordRecoil } from '../../recoil/atom';
+import { TDataType } from '../../db/AWSDynamoDB';
 
 const Result = () => {
   const theme = useTheme();
@@ -12,8 +13,8 @@ const Result = () => {
   // const { getResults } = useDB();
   //TODO: (고도화) 전체 테스트 기록에서, 일치 율 순위 % 표시, 링크 공유, 동일 닉네임으로 히스토리 표시
 
-  console.log(record, getGussingAccurate());
-
+  const acurrateResult = getGussingAccurate(record);
+  // console.log(record, acurrateResult);
   return (
     <Container>
       <Stack direction={'column'} alignItems="center" sx={{ my: 5 }} gap={3}>
@@ -38,10 +39,18 @@ const Result = () => {
               component={'span'}
               variant="h2"
               fontWeight={theme.typography.fontWeightBold}>
-              {getGussingAccurate()} %
+              {acurrateResult} %
             </Typography>
-            <Typography>(예상 숫자와 실제 정답 수 일치율)</Typography>
+            <Typography>(메타인지 정확도)</Typography>
           </Typography>
+
+          <Rating
+            sx={{ m: 'auto' }}
+            name="half-rating-read"
+            defaultValue={acurrateResult ? (acurrateResult / 100) * 5 : 0}
+            precision={0.5}
+            readOnly
+          />
         </Stack>
 
         <Divider sx={{ width: 1 }} />
@@ -79,16 +88,18 @@ const Result = () => {
     await navigator.clipboard.writeText(window.location.href);
     alert('링크 복사 완료!');
   }
-
-  function getGussingAccurate() {
-    if (record.correctNumber && record.guessNumber && record.wordsTotal) {
-      return (
-        Number(
-          (1 - Math.abs(record.correctNumber - record.guessNumber) / record.wordsTotal).toFixed(1)
-        ) * 100
-      );
-    }
-  }
 };
 
 export default Result;
+
+function getGussingAccurate(record: Partial<TDataType>) {
+  const { correctNumber, guessNumber } = record;
+
+  if (correctNumber !== undefined && guessNumber !== undefined) {
+    return (
+      Number(
+        (1 - Math.abs(correctNumber - guessNumber) / (correctNumber + guessNumber)).toFixed(1)
+      ) * 100
+    );
+  }
+}
