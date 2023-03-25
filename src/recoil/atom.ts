@@ -1,18 +1,12 @@
-import moment from 'moment';
 import { atom } from 'recoil';
+import { TDataType } from '../db/AWSDynamoDB';
 
-export const nicknameRecoil = atom({ key: 'nickname', default: '' });
-
-type TRecord = {
-  date: string;
-  wordsTotal?: number;
-  guessNumber?: number;
-  correctNumber?: number;
-};
-
-export const recordRecoil = atom<TRecord>({
+export const recordRecoil = atom<Partial<TDataType>>({
   key: 'record',
-  default: {
-    date: moment().format('YYYY-MM-DD hh:mm:ss'),
-  },
+  default: {},
+});
+
+export const quizWords = atom<string[]>({
+  key: 'words',
+  default: [],
 });

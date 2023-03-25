@@ -1,21 +1,21 @@
 import { Button, Container, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { recordRecoil } from '../../recoil/atom';
+import { useSetRecoilState } from 'recoil';
+import { quizWords } from '../../recoil/atom';
 import BoxTextGroup from '../../components/BoxTextGroup';
 import words from '../../assets/korean_list.json';
 
 import { PATH } from '../../routes/path';
 
-const TEST_WORD_NUMBER_LIST = [10, 20, 30];
+const TEST_WORD_NUMBER_LIST = [1, 20, 30];
 
 const Ready = () => {
   const navigate = useNavigate();
 
-  const [wordNumber, setWordNumber] = useState<number>(10);
+  const [wordNumber, setWordNumber] = useState<number>(1);
 
-  const [record, setRecord] = useRecoilState(recordRecoil);
+  const setQuizWords = useSetRecoilState(quizWords);
 
   return (
     <Container>
@@ -47,8 +47,8 @@ const Ready = () => {
         <Button
           variant="contained"
           onClick={() => {
-            setRecord({ ...record, wordsTotal: wordNumber });
-            navigate(PATH.quiz, { state: { randomWords: pickRandomWords(wordNumber) } });
+            setQuizWords(pickRandomWords(wordNumber));
+            navigate(PATH.quiz);
           }}>
           테스트 시작
         </Button>

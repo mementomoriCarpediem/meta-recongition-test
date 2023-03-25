@@ -14,15 +14,19 @@ import { Stack } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
 import { useSetRecoilState } from 'recoil';
-import { nicknameRecoil } from '../../recoil/atom';
+import { recordRecoil } from '../../recoil/atom';
+import { useDB } from '../../hooks/useDB';
 
 const Entry = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const setNicknameRecoil = useSetRecoilState(nicknameRecoil);
+  const setRecord = useSetRecoilState(recordRecoil);
 
   const [nickname, setNickname] = useState<string>('');
+  const { getResults } = useDB();
+
+  getResults();
 
   return (
     <Container sx={{ height: '100vh' }}>
@@ -60,34 +64,42 @@ const Entry = () => {
             type="submit"
             size="large"
             onClick={() => {
-              setNicknameRecoil(nickname);
+              setRecord((prev) => ({ ...prev, nickname }));
               navigate(PATH.ready);
             }}>
             시작하기
           </Button>
         </Stack>
 
-        <Card sx={{ width: '100%', mt: 10 }}>
-          <CardHeader
-            sx={{ backgroundColor: theme.palette.primary.light }}
-            title={
-              <Typography variant="body1" fontWeight={theme.typography.fontWeightMedium}>
-                메타인지 실험영상 - EBS
-              </Typography>
-            }
-          />
-          <CardContent sx={{ mb: 0 }}>
-            <iframe
-              width="100%"
-              height={'100%'}
-              src="https://www.youtube.com/embed/5aQHBVR2l50"
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-          </CardContent>
-        </Card>
+        <ExperimentVideo />
       </Stack>
     </Container>
   );
 };
 
 export default Entry;
+
+function ExperimentVideo() {
+  const theme = useTheme();
+
+  return (
+    <Card sx={{ width: '100%', mt: 10 }}>
+      <CardHeader
+        sx={{ backgroundColor: theme.palette.primary.light }}
+        title={
+          <Typography variant="body1" fontWeight={theme.typography.fontWeightMedium}>
+            메타인지 실험영상 - EBS
+          </Typography>
+        }
+      />
+      <CardContent sx={{ mb: 0 }}>
+        <iframe
+          width="100%"
+          height={'100%'}
+          src="https://www.youtube.com/embed/5aQHBVR2l50"
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      </CardContent>
+    </Card>
+  );
+}

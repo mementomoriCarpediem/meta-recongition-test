@@ -12,7 +12,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 const TABLE_NAME = 'meta_recognition';
 
-type TDataType = {
+export type TDataType = {
   nickname: string;
   date: string;
   wordsTotal: number;
@@ -21,30 +21,40 @@ type TDataType = {
 };
 
 export class AWSDynamoDB {
-  fetchData() {
-    var params = {
-      TableName: TABLE_NAME,
-    };
+  async fetchAllDatas() {
+    var params = { TableName: TABLE_NAME };
 
-    docClient.scan(params, function (err, data) {
-      if (!err) {
+    return docClient
+      .scan(params)
+      .promise()
+      .then((data) => {
         console.log(data);
-      }
-    });
+        return data.Items;
+      })
+      .catch((err) => {
+        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
+      });
   }
 
-  loginWithNickname(nickname: string) {}
-
-  queryData(nickname: string) {
-    docClient.query({
-      TableName: TABLE_NAME,
-      KeyConditionExpression: 'nickname = :nickname',
-      ExpressionAttributeNames: { ':nickname': nickname },
-    });
+  async getMyDatas(nickname: string) {
+    return docClient
+      .query({
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'nickname = :nickname',
+        ExpressionAttributeValues: { ':nickname': nickname },
+      })
+      .promise()
+      .then((data) => {
+        console.log(data);
+        return data.Items;
+      })
+      .catch((err) => {
+        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
+      });
   }
 
   putData = (data: TDataType) => {
-    var params = {
+    const params = {
       TableName: TABLE_NAME,
       Item: data,
     };

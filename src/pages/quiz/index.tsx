@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, Container, Typography, useTheme } from '@mui/material';
 import { useWords } from '../../hooks/useWords';
 import { PATH } from '../../routes/path';
+import { useRecoilValue } from 'recoil';
+import { quizWords } from '../../recoil/atom';
 
 const Quiz = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const {
-    state: { randomWords },
-  } = useLocation();
+
+  const randomWords = useRecoilValue(quizWords);
 
   const { total, currentIndex, word } = useWords(randomWords);
 
   useEffect(() => {
     let timer: NodeJS.Timer;
 
-    if (total === currentIndex + 1) timer = setTimeout(() => navigate(PATH.guess), 3000);
+    if (total === currentIndex + 1)
+      timer = setTimeout(
+        () => navigate(PATH.guess, { state: { wordsNumber: randomWords.length } }),
+        3000
+      );
 
     return () => clearTimeout(timer);
   }, [currentIndex]);
@@ -43,8 +48,8 @@ const Quiz = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Typography variant="h1" textAlign={'center'}>
-            {word.length > 0 ? word : '준비중..'}
+          <Typography variant={word.length > 0 ? 'h1' : 'h3'} textAlign={'center'}>
+            {word.length > 0 ? word : '곧 시작합니다...'}
           </Typography>
         </CardContent>
       </Card>

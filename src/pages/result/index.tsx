@@ -2,15 +2,17 @@ import React from 'react';
 import { Container, Divider, Fab, Stack, Typography, useTheme, Zoom } from '@mui/material';
 import BoxTextGroup from '../../components/BoxTextGroup';
 import ShareIcon from '@mui/icons-material/Share';
-import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { recordRecoil } from '../../recoil/atom';
 
-type Props = {};
-
-const Result = (props: Props) => {
+const Result = () => {
   const theme = useTheme();
-  const location = useLocation();
+  const record = useRecoilValue(recordRecoil);
 
+  // const { getResults } = useDB();
   //TODO: (고도화) 전체 테스트 기록에서, 일치 율 순위 % 표시, 링크 공유, 동일 닉네임으로 히스토리 표시
+
+  console.log(record, getGussingAccurate());
 
   return (
     <Container>
@@ -23,8 +25,10 @@ const Result = (props: Props) => {
           borderRadius={theme.shape.borderRadius}
           p={1}
           width="100%">
-          OOO 님의
-          <Typography variant="h4"> 메타인지 테스트 결과</Typography>
+          {`${record.nickname} 님의`}
+          <Typography variant="h4" component={'p'}>
+            메타인지 테스트 결과
+          </Typography>
         </Typography>
 
         <Stack sx={{ p: 2 }} width="100%" gap={2}>
@@ -34,7 +38,7 @@ const Result = (props: Props) => {
               component={'span'}
               variant="h2"
               fontWeight={theme.typography.fontWeightBold}>
-              85 %
+              {getGussingAccurate()} %
             </Typography>
             <Typography>(예상 숫자와 실제 정답 수 일치율)</Typography>
           </Typography>
@@ -44,7 +48,11 @@ const Result = (props: Props) => {
 
         <BoxTextGroup
           title="상세 내역"
-          contents={['전체 단어 개수: 10개', '예상 결과: 10개', '실제 맞춘 개수 : 10개']}
+          contents={[
+            `전체 단어 개수: ${record.wordsTotal}개`,
+            `예상 결과: ${record.guessNumber}개`,
+            `실제 맞춘 개수 : ${record.correctNumber}개`,
+          ]}
         />
       </Stack>
 
@@ -70,6 +78,16 @@ const Result = (props: Props) => {
   async function copyTextUrl() {
     await navigator.clipboard.writeText(window.location.href);
     alert('링크 복사 완료!');
+  }
+
+  function getGussingAccurate() {
+    if (record.correctNumber && record.guessNumber && record.wordsTotal) {
+      return (
+        Number(
+          (1 - Math.abs(record.correctNumber - record.guessNumber) / record.wordsTotal).toFixed(1)
+        ) * 100
+      );
+    }
   }
 };
 
