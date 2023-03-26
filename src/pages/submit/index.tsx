@@ -46,7 +46,7 @@ const Submit = () => {
       guessNumber: record.guessNumber || 0,
       date: new Date().toISOString(),
       wordsTotal: words.length,
-      correctNumber: countCorrectAnswer(answers),
+      correctNumber: countCorrectAnswer(answers, words),
     };
 
     saveRecord(data);
@@ -54,17 +54,14 @@ const Submit = () => {
 
     navigate(PATH.result);
   }
-
-  function countCorrectAnswer(answers: string) {
-    let correctNumber = 0;
-
-    answers
-      .trim()
-      .split(',')
-      .forEach((answer) => words.includes(answer) && correctNumber++);
-
-    return correctNumber;
-  }
 };
 
 export default Submit;
+
+export function countCorrectAnswer(answers: string, words: string[]) {
+  let correctNumber = 0;
+
+  answers.split(',').forEach((answer) => words.includes(answer.trim()) && correctNumber++);
+
+  return correctNumber;
+}
