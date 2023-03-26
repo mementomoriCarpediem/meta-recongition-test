@@ -16,6 +16,7 @@
     "moment": "^2.29.4",
     "react": "latest",
     "react-dom": "latest",
+    "react-ga": "^3.3.1",
     "react-router-dom": "^6.9.0",
     "react-scripts": "latest",
     "recoil": "^0.7.7",

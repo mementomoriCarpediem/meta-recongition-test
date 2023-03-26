@@ -7,8 +7,11 @@ import Quiz from './pages/quiz';
 import Guess from './pages/guess';
 import Submit from './pages/submit';
 import Result from './pages/result';
+import { useRouteChangeTracker } from './hooks/useRouteChangeTracker';
 
 export default function App() {
+  useRouteChangeTracker();
+
   return (
     <BrowserRouter>
       <Routes>
