@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
 import { useSetRecoilState } from 'recoil';
 import { recordRecoil } from '../../recoil/atom';
-import { useDB } from '../../hooks/useDB';
+import { countCorrectAnswer } from '../submit';
 
 const Entry = () => {
   const theme = useTheme();
@@ -24,9 +24,6 @@ const Entry = () => {
   const setRecord = useSetRecoilState(recordRecoil);
 
   const [nickname, setNickname] = useState<string>('');
-  const { getResults } = useDB();
-
-  getResults();
 
   return (
     <Container sx={{ height: '100vh' }}>

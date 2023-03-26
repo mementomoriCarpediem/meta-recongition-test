@@ -14,7 +14,7 @@ const Result = () => {
   //TODO: (고도화) 전체 테스트 기록에서, 일치 율 순위 % 표시, 링크 공유, 동일 닉네임으로 히스토리 표시
 
   const acurrateResult = getGussingAccurate(record);
-  // console.log(record, acurrateResult);
+
   return (
     <Container>
       <Stack direction={'column'} alignItems="center" sx={{ my: 5 }} gap={3}>
@@ -41,7 +41,10 @@ const Result = () => {
               fontWeight={theme.typography.fontWeightBold}>
               {acurrateResult} %
             </Typography>
-            <Typography>(메타인지 정확도)</Typography>
+            <Typography fontWeight={theme.typography.fontWeightBold}>* 메타인지 정확도:</Typography>
+            <Typography>
+              예측 대비 실제 맞춘갯수 일치율 + a(동일 개수인 경우 더 많이 맞춘 경우의 보너스 점수
+            </Typography>
           </Typography>
 
           <Rating
@@ -73,15 +76,24 @@ const Result = () => {
 export default Result;
 
 function getGussingAccurate(record: Partial<TDataType>) {
-  const { correctNumber, guessNumber } = record;
+  const { correctNumber, guessNumber, wordsTotal } = record;
 
-  if (correctNumber !== undefined && guessNumber !== undefined) {
+  if (correctNumber !== undefined && guessNumber !== undefined && wordsTotal !== undefined) {
+    //NOTE 예측 숫자와 실제 맞춘 숫자가 동일한 경우, 많이 맞춘 경우에 차등을 두기 위한 보너스 점수
+    const bonusForSameNumberBetweenGuessAndCorrectNumbers = (sameNumber: number) => {
+      return 0.3 * wordsTotal * sameNumber;
+    };
+
     return (
       Number(
         (1 - Math.abs(correctNumber - guessNumber) / Math.max(correctNumber, guessNumber)).toFixed(
           1
         )
-      ) * 100
+      ) *
+        100 +
+      (correctNumber === guessNumber
+        ? bonusForSameNumberBetweenGuessAndCorrectNumbers(correctNumber)
+        : 0)
     );
   }
 }
