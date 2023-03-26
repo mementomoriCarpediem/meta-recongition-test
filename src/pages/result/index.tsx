@@ -78,7 +78,9 @@ function getGussingAccurate(record: Partial<TDataType>) {
   if (correctNumber !== undefined && guessNumber !== undefined) {
     return (
       Number(
-        (1 - Math.abs(correctNumber - guessNumber) / (correctNumber + guessNumber)).toFixed(1)
+        (1 - Math.abs(correctNumber - guessNumber) / Math.max(correctNumber, guessNumber)).toFixed(
+          1
+        )
       ) * 100
     );
   }
