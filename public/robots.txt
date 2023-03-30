@@ -1,1 +1,1 @@
-Sitemap: https://www.meta-recognition/sitemap.xml
+Sitemap: http://www.meta-recognition/sitemap.xml
