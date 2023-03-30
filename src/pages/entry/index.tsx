@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
 import { useSetRecoilState } from 'recoil';
 import { recordRecoil } from '../../recoil/atom';
-import { countCorrectAnswer } from '../submit';
+import Footer from './Footer';
 
 const Entry = () => {
   const theme = useTheme();
@@ -31,7 +31,7 @@ const Entry = () => {
         direction={'column'}
         justifyContent="space-around"
         alignItems="center"
-        sx={{ margin: 5, height: '90%' }}>
+        sx={{ margin: 5, height: '85%' }}>
         <Stack>
           <Typography
             variant="h4"
@@ -70,6 +70,8 @@ const Entry = () => {
 
         <ExperimentVideo />
       </Stack>
+
+      <Footer />
     </Container>
   );
 };
