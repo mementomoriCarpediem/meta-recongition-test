@@ -16,6 +16,7 @@ import { PATH } from '../../routes/path';
 import { useSetRecoilState } from 'recoil';
 import { recordRecoil } from '../../recoil/atom';
 import Footer from './Footer';
+import { useWindow } from '../../hooks/useWindow';
 
 const Entry = () => {
   const theme = useTheme();
@@ -31,7 +32,7 @@ const Entry = () => {
         direction={'column'}
         justifyContent="space-around"
         alignItems="center"
-        sx={{ margin: 5, height: '85%' }}>
+        sx={{ margin: 5, height: '90%' }}>
         <Stack>
           <Typography
             variant="h4"
@@ -81,8 +82,12 @@ export default Entry;
 function ExperimentVideo() {
   const theme = useTheme();
 
+  const { windowSize } = useWindow();
+
+  const isWide = windowSize?.width && windowSize?.width > 500;
+
   return (
-    <Card sx={{ width: '100%', mt: 10 }}>
+    <Card sx={{ width: '100%' }}>
       <CardHeader
         sx={{ backgroundColor: theme.palette.primary.light }}
         title={
@@ -91,11 +96,11 @@ function ExperimentVideo() {
           </Typography>
         }
       />
-      <CardContent sx={{ mb: 0 }}>
+      <CardContent sx={{ p: 0, justifyContent: 'center', display: 'flex' }}>
         <iframe
-          width="100%"
-          height={'100%'}
-          src="https://www.youtube.com/embed/5aQHBVR2l50"
+          style={{ marginTop: 10, minHeight: isWide ? 500 : 0, minWidth: isWide ? 700 : 0 }}
+          height="100%"
+          src="https://www.youtube.com/embed/5aQHBVR2l50?autoplay=1&mute=1&origin=http://meta-recognition.site"
           allowFullScreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
       </CardContent>
