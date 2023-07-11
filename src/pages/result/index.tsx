@@ -2,9 +2,13 @@ import React from 'react';
 import { Container, Divider, Fab, Rating, Stack, Typography, useTheme, Zoom } from '@mui/material';
 import BoxTextGroup from '../../components/BoxTextGroup';
 import ShareIcon from '@mui/icons-material/Share';
+import HomeIcon from '@mui/icons-material/Home';
+
 import { useRecoilValue } from 'recoil';
 import { recordRecoil } from '../../recoil/atom';
 import { TDataType } from '../../db/AWSDynamoDB';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../routes/path';
 
 const Result = () => {
   const theme = useTheme();
@@ -68,7 +72,7 @@ const Result = () => {
         />
       </Stack>
 
-      <CopyLink />
+      <ButtonGroup />
     </Container>
   );
 };
@@ -98,8 +102,9 @@ function getGussingAccurate(record: Partial<TDataType>) {
   }
 }
 
-function CopyLink() {
+function ButtonGroup() {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Stack>
@@ -111,11 +116,25 @@ function CopyLink() {
         }}
         style={{
           transitionDelay: `${theme.transitions.duration.leavingScreen}ms`,
-          marginLeft: 'auto',
         }}
-        unmountOnExit
-        onClick={async () => await copyTextUrl()}>
-        <Fab sx={{ bgcolor: theme.palette.primary.main }}> {<ShareIcon color={'success'} />}</Fab>
+        unmountOnExit>
+        <Stack
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Fab
+            sx={{ bgcolor: theme.palette.success.contrastText }}
+            onClick={() => navigate(PATH.entry)}>
+            <HomeIcon color={'success'} />
+          </Fab>
+
+          <Fab
+            sx={{ bgcolor: theme.palette.primary.main, marginLeft: 'auto' }}
+            onClick={async () => await copyTextUrl()}>
+            {<ShareIcon color={'success'} />}
+          </Fab>
+        </Stack>
       </Zoom>
     </Stack>
   );
