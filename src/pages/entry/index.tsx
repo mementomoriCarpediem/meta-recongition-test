@@ -82,12 +82,8 @@ export default Entry;
 function ExperimentVideo() {
   const theme = useTheme();
 
-  const { windowSize } = useWindow();
-
-  const isWide = windowSize?.width && windowSize?.width > 500;
-
   return (
-    <Card sx={{ width: '100%' }}>
+    <Card sx={{ width: '100%', height: '100%' }}>
       <CardHeader
         sx={{ backgroundColor: theme.palette.primary.light }}
         title={
@@ -96,13 +92,13 @@ function ExperimentVideo() {
           </Typography>
         }
       />
-      <CardContent sx={{ p: 0, justifyContent: 'center', display: 'flex' }}>
+      <CardContent sx={{ p: 0, margin: 'auto', height: '100%', width: '100%' }}>
         <iframe
-          style={{ marginTop: 10, minHeight: isWide ? 500 : 0, minWidth: isWide ? 700 : 0 }}
+          style={{ marginTop: 10, width: '100%' }}
           height="100%"
           src="https://www.youtube.com/embed/5aQHBVR2l50?autoplay=1&mute=1&origin=http://meta-recognition.site"
           allowFullScreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"></iframe>
       </CardContent>
     </Card>
   );
