@@ -96,7 +96,7 @@ function ExperimentVideo() {
         <iframe
           style={{ marginTop: 10, width: '100%' }}
           height="100%"
-          src="https://www.youtube.com/embed/5aQHBVR2l50?autoplay=1&mute=1&origin=http://meta-recognition.site"
+          src="https://www.youtube.com/embed/5aQHBVR2l50?autoplay=1&mute=0&origin=http://meta-recognition.site"
           allowFullScreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"></iframe>
       </CardContent>
