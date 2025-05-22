@@ -1,16 +1,16 @@
-import AWS, { ConfigurationOptions } from 'aws-sdk';
+import AWS from "aws-sdk";
+import { Auth } from "aws-amplify";
 
-const configuration: ConfigurationOptions = {
-  region: process.env.REACT_APP_AWS_REGION,
-  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-  secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
-};
+async function getDynamoDBClient() {
+  const credentials = await Auth.currentCredentials();
+  AWS.config.update({
+    region: "ap-northeast-2",
+    credentials: Auth.essentialCredentials(credentials),
+  });
+  return new AWS.DynamoDB.DocumentClient();
+}
 
-AWS.config.update(configuration);
-
-const docClient = new AWS.DynamoDB.DocumentClient();
-
-const TABLE_NAME = 'meta_recognition';
+const TABLE_NAME = "meta_recognition";
 
 export type TDataType = {
   nickname: string;
@@ -22,6 +22,7 @@ export type TDataType = {
 
 export class AWSDynamoDB {
   async fetchAllDatas() {
+    const docClient = await getDynamoDBClient();
     var params = { TableName: TABLE_NAME };
 
     return docClient
@@ -32,16 +33,20 @@ export class AWSDynamoDB {
         return data.Items;
       })
       .catch((err) => {
-        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
+        console.error(
+          "Unable to read item. Error JSON:",
+          JSON.stringify(err, null, 2)
+        );
       });
   }
 
   async getMyDatas(nickname: string) {
+    const docClient = await getDynamoDBClient();
     return docClient
       .query({
         TableName: TABLE_NAME,
-        KeyConditionExpression: 'nickname = :nickname',
-        ExpressionAttributeValues: { ':nickname': nickname },
+        KeyConditionExpression: "nickname = :nickname",
+        ExpressionAttributeValues: { ":nickname": nickname },
       })
       .promise()
       .then((data) => {
@@ -49,11 +54,15 @@ export class AWSDynamoDB {
         return data.Items;
       })
       .catch((err) => {
-        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
+        console.error(
+          "Unable to read item. Error JSON:",
+          JSON.stringify(err, null, 2)
+        );
       });
   }
 
-  putData = (data: TDataType) => {
+  async putData(data: TDataType) {
+    const docClient = await getDynamoDBClient();
     const params = {
       TableName: TABLE_NAME,
       Item: data,
@@ -61,10 +70,10 @@ export class AWSDynamoDB {
 
     docClient.put(params, function (err, data) {
       if (err) {
-        console.log('Error', err);
+        console.log("Error", err);
       } else {
-        console.log('Success', data);
+        console.log("Success", data);
       }
     });
-  };
+  }
 }
