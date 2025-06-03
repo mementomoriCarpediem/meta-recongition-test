@@ -15,7 +15,7 @@ const Quiz = () => {
   const { total, currentIndex, word } = useWords(randomWords);
 
   useEffect(() => {
-    let timer: NodeJS.Timer;
+    let timer: NodeJS.Timeout;
 
     if (total === currentIndex + 1)
       timer = setTimeout(
@@ -47,7 +47,8 @@ const Quiz = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Typography variant={word.length > 0 ? 'h1' : 'h3'} textAlign={'center'}>
             {word.length > 0 ? word : '곧 시작합니다...'}
           </Typography>

@@ -1,16 +1,17 @@
-import AWS from "aws-sdk";
-import { Auth } from "aws-amplify";
+import AWS from 'aws-sdk';
+import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 
 async function getDynamoDBClient() {
-  const credentials = await Auth.currentCredentials();
+  const { credentials } = await fetchAuthSession();
+
   AWS.config.update({
-    region: "ap-northeast-2",
-    credentials: Auth.essentialCredentials(credentials),
+    region: 'ap-northeast-2',
+    credentials,
   });
   return new AWS.DynamoDB.DocumentClient();
 }
 
-const TABLE_NAME = "meta_recognition";
+const TABLE_NAME = 'meta_recognition';
 
 export type TDataType = {
   nickname: string;
@@ -33,10 +34,7 @@ export class AWSDynamoDB {
         return data.Items;
       })
       .catch((err) => {
-        console.error(
-          "Unable to read item. Error JSON:",
-          JSON.stringify(err, null, 2)
-        );
+        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
       });
   }
 
@@ -45,8 +43,8 @@ export class AWSDynamoDB {
     return docClient
       .query({
         TableName: TABLE_NAME,
-        KeyConditionExpression: "nickname = :nickname",
-        ExpressionAttributeValues: { ":nickname": nickname },
+        KeyConditionExpression: 'nickname = :nickname',
+        ExpressionAttributeValues: { ':nickname': nickname },
       })
       .promise()
       .then((data) => {
@@ -54,10 +52,7 @@ export class AWSDynamoDB {
         return data.Items;
       })
       .catch((err) => {
-        console.error(
-          "Unable to read item. Error JSON:",
-          JSON.stringify(err, null, 2)
-        );
+        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
       });
   }
 
@@ -68,11 +63,11 @@ export class AWSDynamoDB {
       Item: data,
     };
 
-    docClient.put(params, function (err, data) {
+    docClient.put(params, function(err, data) {
       if (err) {
-        console.log("Error", err);
+        console.log('Error', err);
       } else {
-        console.log("Success", data);
+        console.log('Success', data);
       }
     });
   }

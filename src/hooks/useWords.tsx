@@ -9,7 +9,7 @@ export const useWords = (inputWords: string[]) => {
   });
 
   useEffect(() => {
-    let timer: NodeJS.Timer;
+    let timer: NodeJS.Timeout;
 
     timer = setInterval(() => {
       setData({
@@ -26,8 +26,6 @@ export const useWords = (inputWords: string[]) => {
       clearInterval(timer);
     };
   }, [inputWords]);
-
-  // console.log(inputWords, data);
 
   return { total: inputWords.length, currentIndex: data.currentIndex, word: data.word };
 };
